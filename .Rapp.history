@@ -1,0 +1,15 @@
+1+1
+rtr <- incadata::use_incadata("/Users/erikbulow/Documents/specialuppdrag/RUPC_3/rtr.dat", #
+                              csv2 = list(sep = "\t"))
+traceback()
+rtr <- incadata::use_incadata("/Users/erikbulow/Documents/specialuppdrag/RUPC_3/rtr.dat", #
+                              csv2 = list(sep = "\t", nrow = 100), as.incadata = FALSE)
+rtr
+as.Dates(rtr)
+rccdates::as.Dates(rtr)
+rtr$DÖDAT
+library(rcc)
+as.Dates.default()
+rccdates:::as.Dates.default()
+rccdates:::as.Dates.default
+source("/Users/erikbulow/Documents/huvud_hals/atal_blanketter/HH_blanketter.R")

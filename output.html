@@ -3,6 +3,7 @@
  <html lang="en"> 
    <head> 
      <meta charset="utf-8"> 
+     <base href="./Public/Files/Gynregistret/Highcharts/" target="_blank"> 
      <title>Rapport</title> 
      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
      <meta name="description" content=""> 
@@ -68,57 +69,59 @@
            <h4 class="muted" align="center">Blankett 1: Anmälan</h4> 
            <p> 
            <hr> 
-           <div id="container1"></div> 
+           <div id="container_ant_anm"></div> 
            </p> 
-           <h4 class="muted" align="center">Blankett 2: Kirurgisk behandling</h4> 
+           <h4 class="muted" align="center">Blankett 2 a: Kirurgisk behandling</h4> 
            <p> 
            <hr> 
-           <div id="container2"></div> 
+           <div id="container_ant_kir"></div> 
            </p> 
-           <h4 class="muted" align="center">Blankett 3: Avslutad primärbehandling</h4> 
+           <h4 class="muted" align="center">Blankett 2 b: Onkologisk behandling</h4> 
            <p> 
            <hr> 
-           <div id="container3"></div> 
+           <div id="container_ant_onk"></div> 
            </p> 
-           <h4 class="muted" align="center">Blankett 4: Icke-kirurgisk recidivbehandling</h4> 
+           <h4 class="muted" align="center">Blankett 3: Uppföljning</h4> 
            <p> 
            <hr> 
-           <div id="container4"></div> 
-           </p> 
-           <h4 class="muted" align="center">Blankett 5: Uppföljning</h4> 
-           <p> 
-           <hr> 
-           <div id="container5"></div> 
+           <div id="container_ant_uppf"></div> 
            </p> 
        </div> 
          <div class="span6"> 
            <h4 class="muted" align="center" >Information om interna täckningsgrader</h4> 
            <p> 
            <hr> 
-           I denna rapport finns antalet inrapporterade blanketter per region, riket och din klinik. Utöver denna statistik finns även den interna täckningsgraden för blankett 2,3,4 och 5. Förtydligande angående respektive intern täckningsgrad: 
+           I denna rapport visas antalet inrapporterade blanketter per region och år. 
+           (Med år avses diagnosår. Detta oberoende av tid för inrapportering eller 
+           behandling etc). 
+           Utöver denna statistik finns även den interna täckningsgraden för blankett 2 a, 
+           2 b och 3. Förtydligande angående respektive intern täckningsgrad: 
            <br> </br> 
            <ul> 
-           <li>Blankett 2: Visar andelen inrapporterade kirurgiblanketter som enligt anmälan kan ha behandlats med kirurgi.</li><br> </br> 
-           <li>Blankett 3: Visar andelen inrapporterade primärbehandlingsblanketter (observera att viss eftersläpning är att vänta då figuren visar per diagnosår).</li><br> </br> 
-           <li>Blankett 4: Visar andelen inrapporterade återbehandlingsblanketter som enligt uppföljningsblanketten kan ha fått recidiv. Finns ingen indikation på recidivfall markeras detta genom utelämnad täckningsgradsruta. </li><br> </br> 
-           <li>Blankett 5: Visar andelen inrapporterade uppföljningsblanketter (observera att viss eftersläpning är att vänta då figuren visar per diagnosår).</li> 
+               <li>Blankett 2 a: Visar andelen inrapporterade kirurgiblanketter som enligt 
+               anmälan bör ha behandlats med kirurgi. Observera att det därutöver kan 
+               finnas kirurgiblanketter trots att kirurgi inte planerats enligt anmälan. 
+               Dessa fall omfattas inte av täckningsgraden. 
+               </li><br> </br> 
+               <li>Blankett 2 b: Visar andelen inrapporterade onkologiblanketter 
+               Observera att det därutöver kan 
+               finnas onkologiblanketter trots att onkologi inte planerats enligt anmälan. 
+               Dessa fall omfattas inte av täckningsgraden. 
+               </li><br> </br> 
+               <li>Blankett 3: Visar andelen inrapporterade uppföljningsblanketter av 
+               fall med anmälningsblankett. 
+           </li><br> </br> 
            </ul> 
           </p> 
        <h4 class="muted" align="center">Täckningsgrad</h4> 
        <hr> 
-           <p><div id="container6"></div></p> 
-            
+           <p><div id="container_tck_kir"></div></p> 
        <h4 class="muted" align="center">Täckningsgrad</h4> 
        <hr> 
-           <p><div id="container7"></div></p> 
-            
+           <p><div id="container_tck_onk"></div></p> 
        <h4 class="muted" align="center">Täckningsgrad</h4> 
        <hr> 
-           <p><div id="container8"></div></p> 
-            
-       <h4 class="muted" align="center">Täckningsgrad</h4> 
-       <hr> 
-           <p><div id="container9"></div></p> 
+           <p><div id="container_tck_uppf"></div></p> 
          </div> 
        </div> 
        <hr> 
@@ -130,13 +133,12 @@
      ================================================== --> 
      <!-- Placed at the end of the document so the pages load faster --> 
      <!-- specifika skript för highcharts --> 
-      <script src="js/jquery-1.9.1.js" type="text/javascript"></script>  
-      <script src="js/highcharts.js" type="text/javascript"></script>  
-          <script src="js/exporting.js" type="text/javascript"></script>  
+      <script src="js/jquery-1.9.1.js" type="text/javascript"></script> 
+      <script src="js/highcharts.js" type="text/javascript"></script> 
+      <script src="js/highcharts-more.js" type="text/javascript"></script> 
       <script src="js/Indikator-Stapel.js" type="text/javascript"></script> 
        <script src="js/Indikator-Tck.js" type="text/javascript"></script> 
        <script src="js/Theme_RCC.js" type="text/javascript"></script> 
-            <script src="js/no-data-to-display.js" type="text/javascript"></script> 
       <!-- Skript för tid av laddning av rapport --> 
        <script type="text/javascript"> 
        function GetClock(){ 
@@ -152,79 +154,38 @@
        </script> 
  <!-- Här hämtar vi data från R-bearbetningen -->
  <script>
- var kat1 = ['2011','2012','2013','2014','2015'];
- var ser1 = [{"name":"Norra","data":[34,34,37,32,12]},{"name":"Uppsala/Örebro","data":[74,76,78,72,21]},{"name":"Sthlm/Gotland","data":[82,59,69,52,3]},{"name":"Västra (exkl. din klinik)","data":[23,50,50,68,23]},{"name":"Sydöstra","data":[76,96,87,93,25]},{"name":"Södra","data":[81,58,74,79,26]},{"name":"Din klinik","data":[23,38,31,45,7]}] ;
- var titel1 = ' Antal anmälningsblanketter ' ;
- var subtitel1 = ' (Urval: Cervix) ' ;
- var yaxis1 = 'Antal blanketter';
- var xaxis1 = 'Diagnosår';
- var kat2 = ['2011','2012','2013','2014','2015'];
- var ser2 = [{"name":"Norra","data":[1,3,15,17,3]},{"name":"Uppsala/Örebro","data":[18,16,25,35,9]},{"name":"Sthlm/Gotland","data":[50,47,46,18,0]},{"name":"Västra (exkl. din klinik)","data":[26,53,50,72,16]},{"name":"Sydöstra","data":[11,6,30,45,4]},{"name":"Södra","data":[8,7,34,29,4]},{"name":"Din klinik","data":[1,1,0,0,0]}] ;
- var titel2 = ' Antal kirurgiblanketter ' ;
- var subtitel2 = ' (Urval: Cervix) ' ;
- var yaxis2 = 'Antal blanketter';
- var xaxis2 = 'Diagnosår';
- var kat3 = ['2011','2012','2013','2014','2015'];
- var ser3 = [{"name":"Norra","data":[29,11,4,3,1]},{"name":"Uppsala/Örebro","data":[53,49,43,24,3]},{"name":"Sthlm/Gotland","data":[9,0,0,3,0]},{"name":"Västra (exkl. din klinik)","data":[3,8,6,13,2]},{"name":"Sydöstra","data":[69,92,82,69,9]},{"name":"Södra","data":[73,54,72,75,12]},{"name":"Din klinik","data":[44,80,75,78,5]}] ;
- var titel3 = ' Antal primärbehandlingsblanketter ' ;
- var subtitel3 = ' (Urval: Cervix) ' ;
- var yaxis3 = 'Antal blanketter';
- var xaxis3 = 'Diagnosår';
- var kat4 = ['2011','2012','2013'];
- var ser4 = [{"name":"Norra","data":[2,0,0]},{"name":"Uppsala/Örebro","data":[3,2,1]},{"name":"Västra (exkl. din klinik)","data":[0,1,0]},{"name":"Sydöstra","data":[7,7,7]},{"name":"Södra","data":[1,1,2]},{"name":"Din klinik","data":[4,3,2]}] ;
- var titel4 = ' Antal recidivblanketter ' ;
- var subtitel4 = ' (Urval: Cervix) ' ;
- var yaxis4 = 'Antal blanketter';
- var xaxis4 = 'Diagnosår';
- var kat5 = ['2011','2012','2013','2014','2015'];
- var ser5 = [{"name":"Norra","data":[29,27,25,19,0]},{"name":"Uppsala/Örebro","data":[47,51,43,14,3]},{"name":"Sthlm/Gotland","data":[34,35,29,19,0]},{"name":"Västra (exkl. din klinik)","data":[17,49,35,24,0]},{"name":"Sydöstra","data":[68,83,70,50,1]},{"name":"Södra","data":[18,24,25,12,1]},{"name":"Din klinik","data":[18,16,28,17,0]}] ;
- var titel5 = ' Antal uppföljningsblanketter ' ;
- var subtitel5 = ' (Urval: Cervix) ' ;
- var yaxis5 = 'Antal blanketter';
- var xaxis5 = 'Diagnosår';
- var kat6 = ['2011','2012','2013','2014','2015'];
- var ser6 = [{"name":"Norra","data":[5,14,79,71,30]},{"name":"Uppsala/Örebro","data":[35,33,49,66,64]},{"name":"Sthlm/Gotland","data":[96,92,90,37,0]},{"name":"Västra","data":[100,96,96,96,62]},{"name":"Sydöstra","data":[18,8,63,69,25]},{"name":"Södra","data":[15,15,57,65,18]}] ;
- var titel6 = ' Intern täckningsgrad (%) för kirurgiblanketten ' ;
- var subtitel6 = ' (Urval: Cervix) ' ;
- var yaxis6 = 'Täckningsgrad (%)';
- var xaxis6 = 'Diagnosår';
- var kat7 = ['2011','2012','2013','2014','2015'];
- var ser7 = [{"name":"Norra","data":[85,32,11,9,8]},{"name":"Uppsala/Örebro","data":[72,64,55,33,14]},{"name":"Sthlm/Gotland","data":[11,0,0,6,0]},{"name":"Västra","data":[100,100,100,81,23]},{"name":"Sydöstra","data":[91,96,94,74,36]},{"name":"Södra","data":[91,93,97,95,46]}] ;
- var titel7 = ' Intern täckningsgrad (%) för primärbehandlingsblanketten ' ;
- var subtitel7 = ' (Urval: Cervix) ' ;
- var yaxis7 = 'Täckningsgrad (%)';
- var xaxis7 = 'Diagnosår';
- var kat8 = ['2011','2012','2013','2014'];
- var ser8 = [{"name":"Norra","data":[40,0,0,null]},{"name":"Uppsala/Örebro","data":[100,100,0,null]},{"name":"Sthlm/Gotland","data":[null,0,null,null]},{"name":"Västra","data":[100,100,67,0]},{"name":"Sydöstra","data":[88,86,88,null]},{"name":"Södra","data":[50,100,67,0]}] ;
- var titel8 = ' Intern täckningsgrad (%) för recidivblanketten ' ;
- var subtitel8 = ' (Urval: Cervix) ' ;
- var yaxis8 = 'Täckningsgrad (%)';
- var xaxis8 = 'Diagnosår';
- var kat9 = ['2011','2012','2013','2014','2015'];
- var ser9 = [{"name":"Norra","data":[85,79,68,59,0]},{"name":"Uppsala/Örebro","data":[64,67,55,19,14]},{"name":"Sthlm/Gotland","data":[41,59,42,37,0]},{"name":"Västra","data":[74,74,78,36,0]},{"name":"Sydöstra","data":[89,86,80,54,4]},{"name":"Södra","data":[23,41,34,15,4]}] ;
- var titel9 = ' Intern täckningsgrad (%) för uppföljningsblanketten ' ;
- var subtitel9 = ' (Urval: Cervix) ' ;
- var yaxis9 = 'Täckningsgrad (%)';
- var xaxis9 = 'Diagnosår';
- document.getElementById('register').innerHTML='Registernamn';
- document.getElementById('typ av rapport').innerHTML='Rapportnamn';
- document.getElementById('information').innerHTML='Urval: Cervix';
- Stapeldiagram('container1', titel1, subtitel1, kat1, xaxis1, yaxis1, ser1);
-          
- Stapeldiagram('container2', titel2, subtitel2, kat2, xaxis2, yaxis2, ser2);
-          
- Stapeldiagram('container3', titel3, subtitel3, kat3, xaxis3, yaxis3, ser3);
-          
- Stapeldiagram('container4', titel4, subtitel4, kat4, xaxis4, yaxis4, ser4);
-          
- Stapeldiagram('container5', titel5, subtitel5, kat5, xaxis5, yaxis5, ser5);
-          
- Tckdiagram('container6', titel6, subtitel6, kat6, xaxis6, yaxis6, ser6);
-          
- Tckdiagram('container7', titel7, subtitel7, kat7, xaxis7, yaxis7, ser7);
-          
- Tckdiagram('container8', titel8, subtitel8, kat8, xaxis8, yaxis8, ser8);
-          
- Tckdiagram('container9', titel9, subtitel9, kat9, xaxis9, yaxis9, ser9);
-          
+ var subtitle_urval = '(Urval: Dianosår: [2008-2014]. Diagnoser: [Alla].)'; 
+ var y_axis_antal = 'Antal blanketter'; 
+ var x_axis_diaar = 'Diagnosår';
+ var ser_ant_anm = [{"name":"Norr","data":[107,109,114,118,112,112,134]},{"name":"Sthlm/Gotland","data":[263,268,289,284,304,312,308]},{"name":"Syd","data":[250,261,269,280,258,257,261]},{"name":"Sydöstra","data":[122,121,127,135,131,153,155]},{"name":"Uppsala/Örebro","data":[226,265,235,259,299,284,315]},{"name":"Väst","data":[243,221,252,265,284,264,288]}]; 
+ var category_ant_anm = ['2008','2009','2010','2011','2012','2013','2014']; 
+ var title_ant_anm = 'Antal anmälningsblanketter'; 
+ Stapeldiagram('container_ant_anm', title_ant_anm, subtitle_urval, category_ant_anm, x_axis_diaar, y_axis_antal, ser_ant_anm);
+ var ser_ant_kir = [{"name":"Norr","data":[71,50,59,73,64,64,82]},{"name":"Sthlm/Gotland","data":[133,152,170,153,157,129,129]},{"name":"Syd","data":[118,155,245,253,171,120,70]},{"name":"Sydöstra","data":[64,63,66,79,64,68,67]},{"name":"Uppsala/Örebro","data":[109,146,148,190,203,154,155]},{"name":"Väst","data":[111,89,104,111,144,125,132]}]; 
+ var category_ant_kir = ['2008','2009','2010','2011','2012','2013','2014']; 
+ var title_ant_kir = 'Antal kirurgiblanketter'; 
+ Stapeldiagram('container_ant_kir', title_ant_kir, subtitle_urval, category_ant_kir, x_axis_diaar, y_axis_antal, ser_ant_kir);
+ var ser_ant_onk = [{"name":"Norr","data":[87,83,94,94,92,72,98]},{"name":"Sthlm/Gotland","data":[203,204,255,229,241,230,203]},{"name":"Syd","data":[183,200,250,263,193,178,171]},{"name":"Sydöstra","data":[91,101,121,131,102,112,86]},{"name":"Uppsala/Örebro","data":[179,203,217,233,255,200,199]},{"name":"Väst","data":[177,169,227,236,221,175,179]}]; 
+ var category_ant_onk = ['2008','2009','2010','2011','2012','2013','2014']; 
+ var title_ant_onk = 'Antal onkologiblanketter'; 
+ Stapeldiagram('container_ant_onk', title_ant_onk, subtitle_urval, category_ant_onk, x_axis_diaar, y_axis_antal, ser_ant_onk);
+ var ser_ant_uppf = [{"name":"Norr","data":[107,109,112,118,111,108,123]},{"name":"Sthlm/Gotland","data":[263,268,289,282,297,265,239]},{"name":"Syd","data":[250,260,268,277,253,218,190]},{"name":"Sydöstra","data":[122,121,127,135,130,149,153]},{"name":"Uppsala/Örebro","data":[225,265,233,257,281,196,200]},{"name":"Väst","data":[243,221,250,265,278,261,249]}]; 
+ var category_ant_uppf = ['2008','2009','2010','2011','2012','2013','2014']; 
+ var title_ant_uppf = 'Antal uppföljningsblanketter'; 
+ Stapeldiagram('container_ant_uppf', title_ant_uppf, subtitle_urval, category_ant_uppf, x_axis_diaar, y_axis_antal, ser_ant_uppf);
+ var ser_tck_kir = [{"name":"Norr","data":[100,100,100,100,100,100,100]},{"name":"Sthlm/Gotland","data":[100,100,100,100,100,100,100]},{"name":"Syd","data":[100,100,100,100,100,100,100]},{"name":"Sydöstra","data":[100,100,100,100,100,100,100]},{"name":"Uppsala/Örebro","data":[100,100,100,100,100,100,100]},{"name":"Väst","data":[100,100,100,100,100,100,100]}]; 
+ var category_tck_kir = ['2008','2009','2010','2011','2012','2013','2014']; 
+ var title_tck_kir = 'Intern täckningsgrad för kirurgiblanketter'; 
+ Tckdiagram('container_tck_kir', title_tck_kir, subtitle_urval, category_tck_kir, x_axis_diaar, y_axis_antal, ser_tck_kir);
+ var ser_tck_onk = [{"name":"Norr","data":[100,100,100,100,100,100,100]},{"name":"Sthlm/Gotland","data":[100,100,100,100,100,100,100]},{"name":"Syd","data":[100,100,100,100,100,100,100]},{"name":"Sydöstra","data":[100,100,100,100,100,100,100]},{"name":"Uppsala/Örebro","data":[100,100,100,100,100,100,100]},{"name":"Väst","data":[100,100,100,100,100,100,100]}]; 
+ var category_tck_onk = ['2008','2009','2010','2011','2012','2013','2014']; 
+ var title_tck_onk = 'Intern täckningsgrad för onkologiblanketten'; 
+ Tckdiagram('container_tck_onk', title_tck_onk, subtitle_urval, category_tck_onk, x_axis_diaar, y_axis_antal, ser_tck_onk);
+ var ser_tck_uppf = [{"name":"Norr","data":[100,100,100,100,100,100,100]},{"name":"Sthlm/Gotland","data":[100,100,100,100,100,100,100]},{"name":"Syd","data":[100,100,100,100,100,100,100]},{"name":"Sydöstra","data":[100,100,100,100,100,100,100]},{"name":"Uppsala/Örebro","data":[100,100,100,100,100,100,100]},{"name":"Väst","data":[100,100,100,100,100,100,100]}]; 
+ var category_tck_uppf = ['2008','2009','2010','2011','2012','2013','2014']; 
+ var title_tck_uppf = 'Intern täckningsgrad för uppföljningsblanketter'; 
+ Tckdiagram('container_tck_uppf', title_tck_uppf, subtitle_urval, category_tck_uppf, x_axis_diaar, y_axis_antal, ser_tck_uppf);
+ document.getElementById('register').innerHTML='Huvud- och halscancerregistret';
+ document.getElementById('typ av rapport').innerHTML='HH - Antal blanketter och intern täckningsgrad';
+ document.getElementById('information').innerHTML='(Urval: Dianosår: [2008-2014]. Diagnoser: [Alla].)';
  </script> </body> </html>

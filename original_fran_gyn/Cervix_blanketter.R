@@ -2,14 +2,14 @@
 
 
 is.inca <- function(){
-  unname(!(Sys.info()["user"] == "christianstaf"))
+  unname(!(Sys.info()["user"] == "erikbulow"))
 }
 
 if (!is.inca()){
-  setwd("~/Documents/Rapportmallar/Cervix/Blanketter")
+  setwd("~/Documents/huvud_hals/atal_blanketter")
   rm(list=ls())
   is.inca <- function(){
-    unname(!(Sys.info()["user"] == "christianstaf"))
+    unname(!(Sys.info()["user"] == "erikbulow"))
   }
   if (!file.exists("ov.rda")) {
     df <- read.csv2("cx2.txt")
@@ -20,6 +20,12 @@ if (!is.inca()){
     load("ov.rda")
     load("ov4.rda")
   }
+  param <- list(
+      Länindelning = "Sydöstra",
+      Från = 2008,
+      Till = 2014,
+      Diagnos = "Cervix"
+  )
 }
 
 
@@ -132,15 +138,15 @@ if (is.inca()) {
   ## Lokalt
   Från<- 2008
   Till<- 2014
-  Diagnos<- "Cervix" 
+  Diagnos<- "Cervix"
 }
-############################ 
+############################
 
 
 # Subsetta diagnoser
 data <- subset(data, a_icd_gruppnamn %in% Diagnos)
 data_rec <- subset(data_rec, a_icd_gruppnamn %in% Diagnos)
-Diagnos <- paste(Diagnos, collapse=",") 
+Diagnos <- paste(Diagnos, collapse=",")
 
 
 
@@ -150,16 +156,16 @@ Diagnos <- paste(Diagnos, collapse=",")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 1: Antal blankett 1                             #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 # Subsettar enbart de med inrapporterat datum
-data1 <- data %>% 
+data1 <- data %>%
   filter(!is.na(a_inrappdatum) & a_inrappdatum !="" & a_diadat_ar != "" & a_diadat_ar >= 2011)
 
 
@@ -167,22 +173,22 @@ data1 <- data %>%
 unit <- nchar(data1$userunitcode[1])
 klinik <- data1[0, ]
 
-if (unit != 1 ) klinik<- subset(data1,(data1$userunitcode==data1$a_inrappklk & 
+if (unit != 1 ) klinik<- subset(data1,(data1$userunitcode==data1$a_inrappklk &
                                          data1$userparentunitcode==data1$a_inrappsjh))
 if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f),decreasing=TRUE)[1]
 
 if (unit != 1 & nrow(klinik) > 0) levels(data1$region.f) <- sub(hemregion, paste(hemregion,"(exkl. din klinik)"), levels(data1$region.f))
 
 
-if (unit != 1 & nrow(klinik) > 0) data1<- subset(data1,(!(data1$userunitcode==data1$a_inrappklk & 
+if (unit != 1 & nrow(klinik) > 0) data1<- subset(data1,(!(data1$userunitcode==data1$a_inrappklk &
                                                             data1$userparentunitcode==data1$a_inrappsjh) | (is.na(data1$a_inrappklk) | is.na(data1$a_inrappsjh))))
 
-if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"  
+if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"
 if (unit != 1 & nrow(klinik) > 0) data1<-rbind(data1,klinik)
 
 
 
-data1 <- data1 %>% 
+data1 <- data1 %>%
   select(a_diadat_ar, region.f)
 
 # Skapa kategorivariabel i.e. år till JS format
@@ -223,16 +229,16 @@ xaxis1 <- paste0("var xaxis1 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 2: Antal blankett 2                             #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 # Subsettar enbart de med inrapporterat datum
-data2 <- data %>% 
+data2 <- data %>%
   filter(!is.na(k_inrappdat) & k_inrappdat !="" & a_diadat_ar != "" & a_diadat_ar >= 2011)
 
 # Lägga till klinik om användaren loggar in på en sådan med data
@@ -240,20 +246,20 @@ unit <- nchar(data2$userunitcode[1])
 klinik <- data2[0, ]
 
 
-if (unit != 1 ) klinik<- subset(data2,(data2$userunitcode==data2$k_inrappenhklkkod & 
+if (unit != 1 ) klinik<- subset(data2,(data2$userunitcode==data2$k_inrappenhklkkod &
                                          data2$userparentunitcode==data2$k_inrappenhsjhkod))
 if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f),decreasing=TRUE)[1]
 
 if (unit != 1 & nrow(klinik) > 0) levels(data2$region.f) <- sub(hemregion, paste(hemregion,"(exkl. din klinik)"), levels(data2$region.f))
-  
 
-if (unit != 1 & nrow(klinik) > 0) data2<- subset(data2,(!(data2$userunitcode==data2$k_inrappenhklkkod & 
+
+if (unit != 1 & nrow(klinik) > 0) data2<- subset(data2,(!(data2$userunitcode==data2$k_inrappenhklkkod &
                                          data2$userparentunitcode==data2$k_inrappenhsjhkod) | (is.na(data2$k_inrappenhklkkod) | is.na(data2$k_inrappenhsjhkod))))
 
-if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"  
+if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"
 if (unit != 1 & nrow(klinik) > 0) data2<-rbind(data2,klinik)
 
-data2 <- data2 %>% 
+data2 <- data2 %>%
   select(a_diadat_ar, region.f)
 
 # Skapa kategorivariabel i.e. år till JS format
@@ -291,18 +297,18 @@ xaxis2 <- paste0("var xaxis2 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 3: Antal blankett 3                             #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 
 
 # Subsettar enbart de med inrapporterat datum
-data3 <- data %>% 
+data3 <- data %>%
   filter(!is.na(p_inrappdat) & p_inrappdat !="" & a_diadat_ar != "" & a_diadat_ar >= 2011)
 
 
@@ -310,7 +316,7 @@ data3 <- data %>%
 unit <- nchar(data3$userunitcode[1])
 klinik <- data3[0, ]
 
-if (unit != 1 ) klinik<- subset(data3,(data3$userunitcode==data3$p_inrappenhklkkod & 
+if (unit != 1 ) klinik<- subset(data3,(data3$userunitcode==data3$p_inrappenhklkkod &
                                          data3$userparentunitcode==data3$p_inrappenhsjhkod))
 
 if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f),decreasing=TRUE)[1]
@@ -318,13 +324,13 @@ if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f
 if (unit != 1 & nrow(klinik) > 0) levels(data3$region.f) <- sub(hemregion, paste(hemregion,"(exkl. din klinik)"), levels(data3$region.f))
 
 
-if (unit != 1 & nrow(klinik) > 0) data3<- subset(data3,(!(data3$userunitcode==data3$p_inrappenhklkkod & 
+if (unit != 1 & nrow(klinik) > 0) data3<- subset(data3,(!(data3$userunitcode==data3$p_inrappenhklkkod &
                                                             data3$userparentunitcode==data3$p_inrappenhsjhkod) | (is.na(data3$p_inrappenhklkkod) | is.na(data3$p_inrappenhsjhkod))))
 
-if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"  
+if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"
 if (unit != 1 & nrow(klinik) > 0) data3<-rbind(data3,klinik)
 
-data3 <- data3 %>% 
+data3 <- data3 %>%
   select(a_diadat_ar, region.f)
 
 
@@ -365,18 +371,18 @@ xaxis3 <- paste0("var xaxis3 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 4: Antal blankett 4                             #
 #                           (O.B.S. här använder vi en annan DF)                      #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 
 
 # Subsettar enbart de med inrapporterat datum, då denna data tages från annan DF så behöver vi även sortera diagnosår
-data4 <- data_rec %>% 
+data4 <- data_rec %>%
   filter(!is.na(r_inrappdat) & a_diadat_ar >= Från  & a_diadat_ar <= Till & r_inrappdat !="" & a_diadat_ar != "" & a_diadat_ar >= 2011)
 
 
@@ -385,7 +391,7 @@ unit <- nchar(data4$userunitcode[1])
 klinik <- data4[0, ]
 
 
-if (unit != 1 ) klinik<- subset(data4,(data4$userunitcode==data4$r_inrappenhklkkod & 
+if (unit != 1 ) klinik<- subset(data4,(data4$userunitcode==data4$r_inrappenhklkkod &
                                          data4$userparentunitcode==data4$r_inrappenhsjhkod))
 
 if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f),decreasing=TRUE)[1]
@@ -393,15 +399,15 @@ if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f
 if (unit != 1 & nrow(klinik) > 0) levels(data4$region.f) <- sub(hemregion, paste(hemregion,"(exkl. din klinik)"), levels(data4$region.f))
 
 
-if (unit != 1 & nrow(klinik) > 0) data4<- subset(data4,(!(data4$userunitcode==data4$r_inrappenhklkkod & 
+if (unit != 1 & nrow(klinik) > 0) data4<- subset(data4,(!(data4$userunitcode==data4$r_inrappenhklkkod &
                                                             data4$userparentunitcode==data4$r_inrappenhsjhkod) | (is.na(data4$r_inrappenhklkkod) | is.na(data4$r_inrappenhsjhkod))))
 
-if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"  
+if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"
 if (unit != 1 & nrow(klinik) > 0) data4<-rbind(data4,klinik)
 
 
 
-data4 <- data4 %>% 
+data4 <- data4 %>%
   select(a_diadat_ar, region.f)
 
 
@@ -441,23 +447,23 @@ xaxis4 <- paste0("var xaxis4 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 5: Antal blankett 5                             #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 # Subsettar enbart de med inrapporterat datum
-data5 <- data %>% 
+data5 <- data %>%
   filter(!is.na(u_inrappdat) & u_inrappdat !="" & a_diadat_ar != "" & a_diadat_ar >= 2011)
 
 # Lägga till klinik om användaren loggar in på en sådan med data
 unit <- nchar(data5$userunitcode[1])
 klinik <- data5[0, ]
 
-if (unit != 1 ) klinik<- subset(data5,(data5$userunitcode==data5$u_inrappenhklkkod & 
+if (unit != 1 ) klinik<- subset(data5,(data5$userunitcode==data5$u_inrappenhklkkod &
                                          data5$userparentunitcode==data5$u_inrappenhsjhkod))
 
 if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f),decreasing=TRUE)[1]
@@ -465,14 +471,14 @@ if (unit != 1 & nrow(klinik) > 0) hemregion <- sort(as.character(klinik$region.f
 if (unit != 1 & nrow(klinik) > 0) levels(data5$region.f) <- sub(hemregion, paste(hemregion,"(exkl. din klinik)"), levels(data5$region.f))
 
 
-if (unit != 1 & nrow(klinik) > 0) data5<- subset(data5,(!(data5$userunitcode==data5$u_inrappenhklkkod & 
+if (unit != 1 & nrow(klinik) > 0) data5<- subset(data5,(!(data5$userunitcode==data5$u_inrappenhklkkod &
                                                             data5$userparentunitcode==data5$u_inrappenhsjhkod) | (is.na(data5$u_inrappenhklkkod) | is.na(data5$u_inrappenhsjhkod))))
 
-if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"  
+if (unit != 1 & nrow(klinik) > 0) klinik$region.f<-"Din klinik"
 if (unit != 1 & nrow(klinik) > 0) data5<-rbind(data5,klinik)
 
 
-data5 <- data5 %>% 
+data5 <- data5 %>%
   select(a_diadat_ar, region.f)
 
 
@@ -514,23 +520,23 @@ xaxis5 <- paste0("var xaxis5 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 6: Täckningsgrad blankett 2                     #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 
-data6 <- subset(data, a_primop_beskrivning != "Planeras ej" & 
+data6 <- subset(data, a_primop_beskrivning != "Planeras ej" &
                   a_diadat_ar >= 2011, c("k_inrappdat","a_diadat_ar", "region.f")  )
 
 ### Parametrar för återanvänding av skript ####
 rappdatum <- "k_inrappdat"
 
 
-###################### Bearbetning av data för att härleda täckningsgrad ###################### 
+###################### Bearbetning av data för att härleda täckningsgrad ######################
 # Skapa kategorivariabel i.e. år till JS format
 kat6 <- levels(as.factor(data6$a_diadat_ar))
 kat6 <- paste0("var kat6 = ['", paste(kat6,collapse = "','"), "'];" )
@@ -571,13 +577,13 @@ xaxis6 <- paste0("var xaxis6 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 7: Täckningsgrad blankett 3                     #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 
 data7 <- subset(data, a_diadat_ar >= 2011, c("p_inrappdat","a_diadat_ar", "region.f")  )
@@ -586,7 +592,7 @@ data7 <- subset(data, a_diadat_ar >= 2011, c("p_inrappdat","a_diadat_ar", "regio
 rappdatum <- "p_inrappdat"
 
 
-###################### Bearbetning av data för att härleda täckningsgrad ###################### 
+###################### Bearbetning av data för att härleda täckningsgrad ######################
 # Skapa kategorivariabel i.e. år till JS format
 kat7 <- levels(as.factor(data7$a_diadat_ar))
 kat7 <- paste0("var kat7 = ['", paste(kat7,collapse = "','"), "'];" )
@@ -626,16 +632,16 @@ xaxis7 <- paste0("var xaxis7 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 8: Täckningsgrad blankett 4                     #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 #  Då denna data tages från annan DF så behöver vi även sortera diagnosår
-data8 <- subset(data_rec, !is.na(u_datreci) 
+data8 <- subset(data_rec, !is.na(u_datreci)
                 & u_datreci != "" & a_diadat_ar >= Från &
                   a_diadat_ar <= Till & a_diadat_ar >= 2011, c("r_inrappdat","a_diadat_ar", "region.f")  )
 
@@ -643,7 +649,7 @@ data8 <- subset(data_rec, !is.na(u_datreci)
 rappdatum <- "r_inrappdat"
 
 
-###################### Bearbetning av data för att härleda täckningsgrad ###################### 
+###################### Bearbetning av data för att härleda täckningsgrad ######################
 # Skapa kategorivariabel i.e. år till JS format
 kat8 <- levels(as.factor(data8$a_diadat_ar))
 kat8 <- paste0("var kat8 = ['", paste(kat8,collapse = "','"), "'];" )
@@ -684,13 +690,13 @@ xaxis8 <- paste0("var xaxis8 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Indikator 9: Täckningsgrad blankett 5                     #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 
 data9 <- subset(data,  a_diadat_ar >= 2011, c("u_inrappdat","a_diadat_ar", "region.f")  )
@@ -699,7 +705,7 @@ data9 <- subset(data,  a_diadat_ar >= 2011, c("u_inrappdat","a_diadat_ar", "regi
 rappdatum <- "u_inrappdat"
 
 
-###################### Bearbetning av data för att härleda täckningsgrad ###################### 
+###################### Bearbetning av data för att härleda täckningsgrad ######################
 # Skapa kategorivariabel i.e. år till JS format
 kat9 <- levels(as.factor(data9$a_diadat_ar))
 kat9 <- paste0("var kat9 = ['", paste(kat9,collapse = "','"), "'];" )
@@ -743,17 +749,17 @@ xaxis9 <- paste0("var xaxis9 = ","'", "Diagnosår","'" ,";")
 
 
 
-############################ ############################ ############################# 
+############################ ############################ #############################
 #                                                                                     #
 #                                                                                     #
 #                           Sammanslagning av del1 samt indikatorerna                 #
 #                                                                                     #
 #                                                                                     #
-############################ ############################ ############################# 
+############################ ############################ #############################
 
 # Ladda in del1
 #Lokalt
-# 
+#
 if(is.inca()) {
   del1 <- scan("D:/R-Scripts/Väst/Oc5stafch/Rapportmallar/Cervix/Blanketter/del1_v2.txt", what="", sep="\n", quiet=TRUE,encoding="UTF-8")
 } else {
