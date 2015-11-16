@@ -17,47 +17,12 @@ if (!is.inca()) {
       year_from     = "2008",
       year_to       = "2014",
       Diagnos       = c("Läpp",  "Munhåla",  "Oropharynx",  "Nasopharynx",  "Hypopharynx",  "Näsa/bihåla",
-                        "Larynx",  "Spottkörtlar",  "Ofullständigt angiven",  "Mal lgl på hals")
+                        "Larynx",  "Spottkörtlar",  "Ofullständigt angiven",  "Mal lgl på hals"),
+      # Svarar på frågan "Visa uppgifter för:"
+      urval         = c("hela riket (per region)") # Kan också vara "patienter anmälda av min klinik"
   )
 }
 
-
-
-##########################################################################################
-#                                                                                        #
-#                                Snygga till df och param                                #
-#                                                                                        #
-##########################################################################################
-
-# Snygga till df
-names(df)       <- tolower(names(df))
-isfac           <- sapply(df, is.factor)
-df[isfac]       <- lapply(df[isfac], as.character)
-
-# Fixa till param
-param$year_from <- as.numeric(param$year_from)
-param$year_to   <- as.numeric(param$year_to)
-
-
-# Grundläggande variabelförändringar
-df <- df %>%
-    mutate(
-        a_diadat_ar = substr(as.character(a_diadat), 1, 4),
-        region_namn = gsub("Region ", "", region_namn),
-        a_icd10_grupp = gsub("[[:digit:]][[:space:]]", "", df$a_icd10_grupp)
-    ) %>%
-    # Fallen måste vara diagnostiserade fr o m 2009 t o m pågående år
-    filter(
-        region_namn != "Demo",
-        a_diadat_ar %in% param$year_from:param$year_to,
-        a_icd10_värde != "00",
-        a_icd10_grupp %in% param$Diagnos)
-
-
-# Kortare label om alla diagnoser valda
-alla_diagnoser <- c("Läpp",  "Munhåla",  "Oropharynx",  "Nasopharynx",  "Hypopharynx",  "Näsa/bihåla",
-                    "Larynx",  "Spottkörtlar",  "Ofullständigt angiven",  "Mal lgl på hals")
-if (all(alla_diagnoser %in% param$Diagnos)) param$Diagnos <- "Alla"
 
 
 ##########################################################################################
@@ -86,11 +51,60 @@ compare_unit <- function(sjh, klk = NULL, df) {
 # klk = textsträng med namn på klinik i df
 adjust_region <- function(df, sjh, klk) {
     ifelse(compare_unit(sjh, klk, df),
-       "Din klinik",
-    ifelse(df$region_namn == df$userregionname,
-      paste(df$region_namn, "(exkl. din klinik)"),
-      df$region_namn))
+           "Din klinik",
+           ifelse(df$region_namn == df$userregionname,
+                  paste(df$region_namn, "(exkl. din klinik)"),
+                  df$region_namn))
 }
+
+
+
+
+
+##########################################################################################
+#                                                                                        #
+#                                Snygga till df och param                                #
+#                                                                                        #
+##########################################################################################
+
+# Snygga till df
+names(df)             <- tolower(names(df))
+isfac                 <- sapply(df, is.factor)
+df[isfac]             <- lapply(df[isfac], as.character)
+
+# Fixa till param
+param$year_from       <- as.numeric(param$year_from)
+param$year_to         <- as.numeric(param$year_to)
+
+# Om vi bara ska betrakta data för den egna kliniken
+if (param$urval == "patienter anmälda av min klinik") {
+    df <- df[compare_unit("a_anmsjh", "a_anmkli", df), ]
+}
+
+
+
+# Grundläggande variabelförändringar
+df <- df %>%
+    mutate(
+        a_diadat_ar   = substr(as.character(a_diadat), 1, 4),
+        region_namn   = gsub("Region ", "", region_namn),
+        a_icd10_grupp = gsub("[[:digit:]][[:space:]]", "", df$a_icd10_grupp)
+    ) %>%
+    # Fallen måste vara diagnostiserade fr o m 2009 t o m pågående år
+    filter(
+        region_namn   != "Demo",
+        a_diadat_ar   %in% param$year_from:param$year_to,
+        a_icd10_värde != "00",
+        a_icd10_grupp %in% param$Diagnos | param$Diagnos == "Alla")
+
+
+
+# Kortare label om alla diagnoser valda
+alla_diagnoser        <- c("Läpp",  "Munhåla",  "Oropharynx",  "Nasopharynx",  "Hypopharynx",  "Näsa/bihåla",
+                           "Larynx",  "Spottkörtlar",  "Ofullständigt angiven",  "Mal lgl på hals")
+if (all(alla_diagnoser %in% param$Diagnos)) param$Diagnos <- "Alla"
+
+
 
 
 
@@ -320,9 +334,28 @@ create_output <- function(...) {
     if (is.inca()) file <- paste0("D:/R-Scripts/Väst/oc5buer/huvud-_och_halscancer/antalblanketter/", file)
     del1 <- scan(file, what = "", sep = "\n", quiet = TRUE, fileEncoding = "UTF-8")
 
-    info_register <- "document.getElementById('register').innerHTML='Huvud- och halscancerregistret';"
-    info_typ      <- "document.getElementById('typ av rapport').innerHTML='HH - Antal blanketter och intern täckningsgrad';"
-    info_info     <- paste0("document.getElementById('information').innerHTML='", subtitle_urval_text, "';")
+    # Tydlig informationstext ifall bara klinikens patienter inkluderas
+    .informationstext <- if (param$urval == "patienter anmälda av min klinik"){
+        paste('<p style="color:red"><strong>',
+              'Endast fall där kliniken rapporterat anmälan inkluderas!</strong><br>',
+              'T ex: täckningsgrad för kirurgiblanketten avser andel tumörer',
+              'där anmälan gjorts av den egna kliniken och där kirurgiblanketten sedan också registrerats',
+              'av godtycklig enhet. </p>'
+        )
+    } else ""
+
+    # Lägg ev till utfyllnadstext för jämna kolumner:
+    .blanktext <- if (param$urval == "patienter anmälda av min klinik") ""
+                  else "<p> &nbsp; <p> &nbsp; <p> &nbsp; <p>"
+
+    # Registrets namn (används i rubriker)
+    registernamn     <- "Svenskt kvalitetsregister för huvud- och halscancer (SweHNCR)"
+    subtitle         <- paste(registernamn, subtitle_urval_text, sep = "<br>")
+    info_register    <- paste0("document.getElementById('register').innerHTML='", registernamn, "';")
+    info_typ         <- "document.getElementById('typ av rapport').innerHTML='Antal blanketter och intern täckningsgrad';"
+    info_info        <- paste0("document.getElementById('information').innerHTML='", subtitle, "';")
+    informationstext <- paste0("document.getElementById('informationstext').innerHTML='", .informationstext, "';")
+    blanktext        <- paste0("document.getElementById('blanktext').innerHTML='", .blanktext, "';")
 
     file.create("output.html")
     outfile <- file("output.html","w", encoding = "UTF-8")
@@ -330,7 +363,8 @@ create_output <- function(...) {
     add_to_outfile <- function(txt) cat(paste("\n", txt),file = outfile, append = TRUE)
 
     # Lista med textobjekt som ska skrivas till output-filen
-    txt_list <- list(del1, "<script>", general_labels, ..., info_register, info_typ, info_info, "</script> </body> </html>")
+    txt_list <- list(del1, "<script>", general_labels, ..., info_register, info_typ, info_info,
+                     informationstext, blanktext, "</script> </body> </html>")
     lapply(txt_list, add_to_outfile)
 }
 
