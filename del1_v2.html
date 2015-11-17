@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+   <link href="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" integrity="sha256-LW6TXOOSwZq31DeFL497cCvqAv7I2QGzxC/eF2S5cwA= sha512-3dYKkHDelxxaf4j8fXlVbNiNGd3IPo6yViEuhtGCzzGqXlVq7+cGov1U3M5QhfsxxZsE7WmjCRQIFqxVgoGx8w==" crossorigin="anonymous">
     <style type="text/css">
       body {
         padding-top: 20px;
@@ -46,14 +46,12 @@
       .marketing p + h4 {
         margin-top: 28px;
       }
+
+      .fixed-heigth {
+          height: 550px;
+      }
+
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../assets/js/html5shiv.js"></script>
-    <![endif]-->
-
 
   </head>
 
@@ -79,43 +77,58 @@
       <hr>
 
       <div class="row-fluid marketing">
+
+        <!-- Vänsterkolumnen -->
         <div class="span6">
-          <h4 class="muted" align="center">Blankett 1: Anmälan</h4>
-          <p> <hr> <div id="container_ant_anm"></div> </p>
-          <h4 class="muted" align="center">Blankett 2a: Kirurgisk behandling  </h4> <p> <hr> <div id="container_ant_kir"> </div> </p>
-          <h4 class="muted" align="center">Blankett 2b: Onkologisk behandling </h4> <p> <hr> <div id="container_ant_onk"> </div> </p>
-          <h4 class="muted" align="center">Blankett 3: Uppföljning            </h4> <p> <hr> <div id="container_ant_uppf"></div> </p>
-      </div>
+          <div class="fixed-heigth">
+            <h4 class="muted" align="center">Blankett 1: Anmälan
+            </h4> <p> <hr> <div id="container_ant_anm"></div> </p>
+          </div>
+          <div class="fixed-heigth">
+            <h4 class="muted" align="center">Blankett 2a: Kirurgisk behandling
+            </h4> <p> <hr> <div id="container_ant_kir"> </div> </p>
+          </div>
+          <div class="fixed-heigth">
+            <h4 class="muted" align="center">Blankett 2b: Onkologisk behandling
+            </h4> <p> <hr> <div id="container_ant_onk"> </div> </p>
+          </div>
+          <div class="fixed-heigth">
+            <h4 class="muted" align="center">Blankett 3: Uppföljning
+            </h4> <p> <hr> <div id="container_ant_uppf"></div> </p>
+          </div>
+        </div>
 
 
+        <!-- Högerkolumnen -->
 
         <div class="span6">
-          <h4 class="muted" align="center" > Information om visade uppgifter </h4>
-          <p>
-          <hr>
-          <span id = "informationstext"></span>
-          Här visas antalet inrapporterade blanketter per region och diagnosår samt
-          interna täckningsgraden för blankett 2a, 2b och 3.
-          <h5>Förtydligande angående respektive intern täckningsgrad:</h5>
-          <ul>
-              <li><strong>Blankett 2a:</strong> Visar andelen inrapporterade kirurgiblanketter som enligt
-              anmälan bör har planerad behandling med kirurgi. Observera att det därutöver kan
-              finnas kirurgiblanketter trots att kirurgi inte planerats enligt anmälan.
-              Dessa fall omfattas inte av täckningsgraden.
-              </li>
-              <li><strong>Blankett 2b: </strong> Visar andelen inrapporterade onkologiblanketter.
-              Observera att det därutöver kan
-              finnas onkologiblanketter trots att onkologi inte planerats enligt anmälan.
-              Dessa fall omfattas inte av täckningsgraden.
-              </li>
-              <li><strong>Blankett 3: </strong>Visar andelen patienter som har minst en inrapporterad uppföljningsblankett.
-          </li>
-          </ul>
-          <span id = "blanktext"></span>
-         </p>
-      <h4 class="muted" align="center">Täckningsgrad</h4> <hr> <p><div id="container_tck_kir"></div></p>
-      <h4 class="muted" align="center">Täckningsgrad</h4> <hr> <p><div id="container_tck_onk"></div></p>
-      <h4 class="muted" align="center">Täckningsgrad</h4> <hr> <p><div id="container_tck_uppf"></div></p>
+            <div class="fixed-heigth">
+                <h4 class="muted" align="center" > Information om visade uppgifter </h4>
+                      <p>
+                      <hr>
+                      <span id = "informationstext"></span>
+                      Här visas antalet inrapporterade blanketter per region och diagnosår samt
+                      interna täckningsgraden för blankett 2a, 2b och 3.
+                      <h5>Förtydligande angående respektive intern täckningsgrad:</h5>
+                      <ul>
+                          <li><strong>Blankett 2a:</strong> Visar andelen inrapporterade kirurgiblanketter som enligt
+                          anmälan bör har planerad behandling med kirurgi. Observera att det därutöver kan
+                          finnas kirurgiblanketter trots att kirurgi inte planerats enligt anmälan.
+                          Dessa fall omfattas inte av täckningsgraden.
+                          </li>
+                          <li><strong>Blankett 2b: </strong> Visar andelen inrapporterade onkologiblanketter.
+                          Observera att det därutöver kan
+                          finnas onkologiblanketter trots att onkologi inte planerats enligt anmälan.
+                          Dessa fall omfattas inte av täckningsgraden.
+                          </li>
+                          <li><strong>Blankett 3: </strong>Visar andelen patienter som har minst en inrapporterad uppföljningsblankett.
+                      </li>
+                      </ul>
+                     </p>
+            </div>
+      <div class="fixed-heigth"> <h4 class="muted" align="center">Täckningsgrad</h4> <hr> <p><div id="container_tck_kir"></div></p> </div>
+      <div class="fixed-heigth"> <h4 class="muted" align="center">Täckningsgrad</h4> <hr> <p><div id="container_tck_onk"></div></p> </div>
+      <div class="fixed-heigth"> <h4 class="muted" align="center">Täckningsgrad</h4> <hr> <p><div id="container_tck_uppf"></div></p> </div>
         </div>
       </div>
 

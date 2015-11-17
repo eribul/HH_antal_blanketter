@@ -79,6 +79,7 @@ param$year_to         <- as.numeric(param$year_to)
 # Om vi bara ska betrakta data för den egna kliniken
 if (param$urval == "patienter anmälda av min klinik") {
     df <- df[compare_unit("a_anmsjh", "a_anmkli", df), ]
+    df$region_namn <- paste( unique(df$userparentunitname), unique(df$userunitname), sep = " - ")
 }
 
 
@@ -344,10 +345,6 @@ create_output <- function(...) {
         )
     } else ""
 
-    # Lägg ev till utfyllnadstext för jämna kolumner:
-    .blanktext <- if (param$urval == "patienter anmälda av min klinik") ""
-                  else "<p> &nbsp; <p> &nbsp; <p> &nbsp; <p>"
-
     # Registrets namn (används i rubriker)
     registernamn     <- "Svenskt kvalitetsregister för huvud- och halscancer (SweHNCR)"
     subtitle         <- paste(registernamn, subtitle_urval_text, sep = "<br>")
@@ -355,7 +352,6 @@ create_output <- function(...) {
     info_typ         <- "document.getElementById('typ av rapport').innerHTML='Antal blanketter och intern täckningsgrad';"
     info_info        <- paste0("document.getElementById('information').innerHTML='", subtitle, "';")
     informationstext <- paste0("document.getElementById('informationstext').innerHTML='", .informationstext, "';")
-    blanktext        <- paste0("document.getElementById('blanktext').innerHTML='", .blanktext, "';")
 
     file.create("output.html")
     outfile <- file("output.html","w", encoding = "UTF-8")
@@ -364,7 +360,7 @@ create_output <- function(...) {
 
     # Lista med textobjekt som ska skrivas till output-filen
     txt_list <- list(del1, "<script>", general_labels, ..., info_register, info_typ, info_info,
-                     informationstext, blanktext, "</script> </body> </html>")
+                     informationstext, "</script> </body> </html>")
     lapply(txt_list, add_to_outfile)
 }
 
