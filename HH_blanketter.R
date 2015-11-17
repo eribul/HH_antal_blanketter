@@ -331,7 +331,7 @@ tck_uppf <- js_object(df1 = ant_uppf_df,
 create_output <- function(...) {
 
     # Ladda in del1 av HTML-filen
-    file <- "del1_v2.html"
+    file <- "prefix.html"
     if (is.inca()) file <- paste0("D:/R-Scripts/Väst/oc5buer/huvud-_och_halscancer/antalblanketter/", file)
     del1 <- scan(file, what = "", sep = "\n", quiet = TRUE, fileEncoding = "UTF-8")
 
