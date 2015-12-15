@@ -3,5 +3,4 @@
 .RData
 .Rproj.user
 data/*
-*.csv
-*.rda
+.Rapp.history
