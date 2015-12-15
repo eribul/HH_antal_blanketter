@@ -7,7 +7,7 @@ library(dplyr)
 #                                                                                        #
 ##########################################################################################
 
-is.inca <- function() unname(!(Sys.info()["user"] == "erikbulow"))
+is.inca <- function() unname(Sys.info()["nodename"] == "EXT-R27-PROD")
 
 if (!is.inca()) {
   setwd("~/Documents/huvud_hals/atal_blanketter")
@@ -336,7 +336,7 @@ create_output <- function(...) {
     del1 <- scan(file, what = "", sep = "\n", quiet = TRUE, fileEncoding = "UTF-8")
 
     # Tydlig informationstext ifall bara klinikens patienter inkluderas
-    .informationstext <- if (param$urval == "patienter anmälda av min klinik"){
+    .informationstext <- if (param$urval == "patienter anmälda av min klinik") {
         paste('<p style="color:red"><strong>',
               'Endast fall där kliniken rapporterat anmälan inkluderas!</strong><br>',
               'T ex: täckningsgrad för kirurgiblanketten avser andel tumörer',
