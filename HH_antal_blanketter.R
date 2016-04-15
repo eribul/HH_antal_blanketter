@@ -98,7 +98,7 @@ df <- df %>%
         a_icd10_värde != "00",
         a_icd10_grupp %in% param$Diagnos | param$Diagnos == "Alla")
 
-
+antal_tumorer_tot <- nrow(df)
 
 # Kortare label om alla diagnoser valda
 alla_diagnoser        <- c("Läpp",  "Munhåla",  "Oropharynx",  "Nasopharynx",  "Hypopharynx",  "Näsa/bihåla",
@@ -206,9 +206,12 @@ subtitle_urval_text <-
     paste0(
         "(Urval: ",
         with(param, paste0(
-            "Dianosår: [", year_from, "-", year_to, "]. ",
-            "Diagnoser: [", paste(Diagnos, collapse = ", "), "].")
-        ),")")
+            "Diagnosår: [", year_from, "-", year_to, "]. ",
+            "Diagnoser: [", paste(Diagnos, collapse = ", "), "]. ")
+        ),
+        "n = ", antal_tumorer_tot,
+        ")"
+    )
 
 general_labels <- list(
     subtitle_urval =
@@ -347,7 +350,8 @@ create_output <- function(...) {
 
     # Registrets namn (används i rubriker)
     registernamn     <- "Svenskt kvalitetsregister för huvud- och halscancer (SweHNCR)"
-    subtitle         <- paste(registernamn, subtitle_urval_text, sep = "<br>")
+    subtitle         <- paste(registernamn, subtitle_urval_text,
+                              "<em> Dölj/visa regioner genom att klicka på respektive namn under varje figur. </em>", sep = "<br>")
     info_register    <- paste0("document.getElementById('register').innerHTML='", registernamn, "';")
     info_typ         <- "document.getElementById('typ av rapport').innerHTML='Antal blanketter och intern täckningsgrad';"
     info_info        <- paste0("document.getElementById('information').innerHTML='", subtitle, "';")
